@@ -1,7 +1,6 @@
 <?php
   require 'php/Model.php';
   require 'php/util.php';
-  //test commit f
   init_php_session();
   $model = Model::getModel();
   $conn = $model->getPDO();
