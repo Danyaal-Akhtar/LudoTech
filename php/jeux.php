@@ -105,10 +105,14 @@ echo '<button class="value">
    
    
     
-    if (preg_match('/^[^\/]+/', $meca, $matches)) { 
-        $meca = trim($matches[0]); 
-    } else {
-        $meca = ''; 
+    if (!empty($mecanisme) && isset($mecanisme[0]['nom'])) {
+        $meca = $mecanisme[0]['nom'];
+
+        if (is_string($meca) && preg_match('/^[^\/]+/', $meca, $matches)) {
+            $meca = trim($matches[0]);
+        } else {
+            $meca = '';
+        }
     }
 
     $index_img = 5; 
@@ -135,8 +139,12 @@ echo '<button class="value">
                 <p><strong>Nombre de joueurs :</strong> " . htmlspecialchars($res['nombre_de_joueurs'] ?? 'Non renseignée') . "</p>
                 <p><strong>Âge :</strong> " . htmlspecialchars($res['age_indique'] ?? 'Non renseignée') . "</p>
                 <p><strong>Description (mots-clés) :</strong> " . nl2br(htmlspecialchars($res['mots_cles'] ?? 'Non renseignée')) . "</p>
-                 <img alt='cat' class='img_cat' src='/img/cat/" . htmlspecialchars($tab_img[$index_img]) . "'></img>
-            </section>";
+                <img alt='cat' class='img_cat' src='/img/cat/" . htmlspecialchars($tab_img[$index_img]) . "'></img>";
+            if(is_curator() || is_admin()){
+                echo "<form method='POST'>
+                        <input type='image' name='delete' src='/img/poubelle.png' class='poubelle' alt='Supprimer'>
+                    </form>
+            </section>";}
             break;
         }
     } else {
@@ -159,6 +167,45 @@ echo '<button class="value">
     } else {
         echo "<p>Aucun auteur trouvé pour ce jeu.</p>";
     }
+
+    if (isset($_POST['delete_x'])) {
+    $model = Model::getModel();
+    $resultat = $model->getJeuByTitre($_GET['titre']);
+
+    if (!empty($resultat)) {
+        $jeu_id = $resultat[0]['jeu_id'];
+        try {
+            $conn = $model->getPDO();
+
+            $conn->prepare("DELETE FROM Prets WHERE boite_id IN (SELECT boite_id FROM Boites WHERE jeu_id = :jeu_id)")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM Boites WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuAuteur WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuEditeur WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuCategories WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuMecanisme WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM Jeux WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            header("Location: /home.php");
+            exit;
+
+        } catch (Exception $e) {
+            echo "Erreur de suppression.";
+        }
+    }
+}
 
     echo "</main>
     <footer>
