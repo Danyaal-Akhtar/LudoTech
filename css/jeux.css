@@ -381,3 +381,48 @@ nav a {
   height: 40px;
   cursor: pointer;
 }
+
+.pop-up-delete {
+  display: none;
+  position: absolute;
+  background: linear-gradient(135deg, #3d2317 0%, #4a2c1a 100%);
+  color: #f5deb3;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  border: 3px solid #cd853f;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  font-family: "Georgia", serif;
+  font-size: 18px;
+  text-align: center;
+}
+
+.btn-delete {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.btn-delete input {
+  background: linear-gradient(135deg, #8b0000, #a52a2a);
+  color: #f5deb3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-delete input:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
