@@ -141,9 +141,7 @@ echo '<button class="value">
                 <p><strong>Description (mots-clés) :</strong> " . nl2br(htmlspecialchars($res['mots_cles'] ?? 'Non renseignée')) . "</p>
                 <img alt='cat' class='img_cat' src='/img/cat/" . htmlspecialchars($tab_img[$index_img]) . "'></img>";
             if(is_curator() || is_admin()){
-                echo "<form method='POST'>
-                        <input type='image' name='delete' src='/img/poubelle.png' class='poubelle' alt='Supprimer'>
-                    </form>
+                echo "<input type='image' src='/img/poubelle.png' class='poubelle'  onclick='document.querySelector(\".pop-up-delete\").style.display=\"block\"'/>
             </section>";}
             break;
         }
@@ -168,7 +166,7 @@ echo '<button class="value">
         echo "<p>Aucun auteur trouvé pour ce jeu.</p>";
     }
 
-    if (isset($_POST['delete_x'])) {
+    if (isset($_POST['delete'])) {
     $model = Model::getModel();
     $resultat = $model->getJeuByTitre($_GET['titre']);
 
@@ -208,6 +206,17 @@ echo '<button class="value">
 }
 
     echo "</main>
+    <div class='pop-up-delete'>
+        <p>
+        Êtes vous sûr de vouloir supprimer ce Jeu ? 
+        </p>
+        <div class='btn-delete'>
+            <input type='submit' value='Annuler' onclick='document.querySelector(\".pop-up-delete\").style.display=\"none\"' />
+        <form method='POST'>
+            <input type='submit' value='Supprimer' name='delete'>
+        </form>
+        </div>
+    </div>
     <footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
         <p>Mentions légales | Politique de confidentialité</p>
