@@ -12,7 +12,6 @@ header {
   background-color: #333;
   color: white;
   height: 130px;
-  padding: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,6 +29,7 @@ header {
   background-size: 40px 40px;
   animation: move 4s linear infinite;
 }
+
 @keyframes move {
   0% {
     background-position: 0 0;
@@ -38,22 +38,19 @@ header {
     background-position: 40px 40px;
   }
 }
+
 header img {
   height: 150px;
 }
+
 header img:hover {
   cursor: pointer;
 }
+
 header input {
   width: 600px;
   height: 39px;
-  padding: 10px;
   font-size: 25px;
-  --input-focus: #2d8cf0;
-  --font-color: #323232;
-  --font-color-sub: #666;
-  --bg-color: #fff;
-  --main-color: #323232;
   border-radius: 25px;
   border: 2px solid var(--main-color);
   background-color: var(--bg-color);
@@ -63,26 +60,36 @@ header input {
   padding: 5px 10px;
   outline: none;
   text-align: center;
+  --input-focus: #2d8cf0;
+  --font-color: #323232;
+  --font-color-sub: #666;
+  --bg-color: #fff;
+  --main-color: #323232;
 }
+
 header input::placeholder {
   color: var(--font-color-sub);
   opacity: 0.8;
 }
+
 header input:focus {
   border: 2px solid var(--input-focus);
 }
+
 header .profile {
   display: flex;
   align-items: center;
   font-size: 20px;
 }
+
 nav {
   background-color: #444;
-  padding: 15px 50px;
-  text-align: center;
-  padding-left: 0%;
-  margin-left: 0%;
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 nav a {
   color: white;
   margin-right: 70px;
@@ -90,6 +97,12 @@ nav a {
   font-size: 23px;
   font-weight: 600;
 }
+
+nav a:hover {
+  background-color: #373c41;
+  padding: 10px;
+}
+
 .poubelle {
   position: relative;
   left: 95%;
@@ -97,16 +110,14 @@ nav a {
   height: 40px;
   cursor: pointer;
 }
-nav a:hover {
-  background-color: #373c41;
-  padding: 10px;
-}
+
 .games {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   padding: 30px;
 }
+
 .game {
   background-color: white;
   padding: 30px;
@@ -115,9 +126,10 @@ nav a:hover {
   border-radius: 10px;
   text-align: center;
   font-size: 20px;
-  height: 10px;
-  width: 10px;
+  height: auto;
+  width: auto;
 }
+
 footer {
   text-align: center;
   background-color: #333;
@@ -140,20 +152,14 @@ footer {
   background-size: 40px 40px;
   animation: move 4s linear infinite;
 }
-@keyframes move {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 40px 40px;
-  }
-}
+
 #userimg {
   height: 60px;
   width: 60px;
   padding-left: 15px;
-  margin: 0px;
+  margin: 0;
 }
+
 .arrow-buttons {
   background-color: black;
   color: white;
@@ -169,22 +175,23 @@ footer {
   margin: 100px;
   font-size: 30px;
 }
+
 .arrow-buttons:hover {
-  cursor: pointer;
   background-color: #333;
 }
+
 .card {
   transform: translateY(40%);
   background-size: cover;
   text-align: center;
   align-content: center;
-  border-radius: 5%;
   height: 300px;
   width: 490px;
   box-shadow: 5px 5px 15px rgba(0.7, 0.7, 0.7, 0.7);
   border-radius: 8px;
   font-size: 25px;
 }
+
 .card a {
   text-decoration: none;
   color: wheat;
@@ -195,20 +202,24 @@ footer {
   left: 0;
   margin: 10px;
 }
+
 .card:hover {
   cursor: pointer;
 }
+
 .search-container {
   position: relative;
   width: 400px;
 }
+
 .search-container input {
   width: 100%;
   padding: 10px 40px 10px 20px;
   font-size: 18px;
 }
+
 .search-container::before {
-  content: "\1F50D"; /* Unicode pour l'icône de loupe */
+  content: "\1F50D";
   position: absolute;
   right: 10px;
   top: 50%;
@@ -216,6 +227,7 @@ footer {
   font-size: 20px;
   color: #888;
 }
+
 .dashboard {
   position: absolute;
   display: flex;
@@ -231,10 +243,12 @@ footer {
   overflow: hidden;
   z-index: 2;
 }
+
 .dashboard a {
   text-decoration: none;
   color: white;
 }
+
 .value {
   font-size: 20px;
   background-color: transparent;
@@ -249,19 +263,20 @@ footer {
   transition: 0.5s;
   box-sizing: border-box;
 }
+
 .value:not(:active):hover,
 .value:focus {
-  display: flex;
-  box-sizing: border-box;
   border: 2px solid #1a1f24;
   color: #637185;
 }
+
 .value:focus,
 .value:active {
   background-color: #1a1f24;
   outline: none;
   margin-left: 17px;
 }
+
 .value::before {
   content: "";
   position: absolute;
@@ -274,14 +289,16 @@ footer {
   opacity: 0;
   transition: 1s;
 }
+
 .value:focus::before,
 .value:active::before {
   opacity: 1;
 }
+
 .dashboard:hover > :not(.value:hover) {
   transition: 100ms;
   filter: blur(1.5px);
-  transform: scale(0.95, 0.95);
+  transform: scale(0.95);
 }
 
 main {
@@ -291,34 +308,29 @@ main {
   flex-wrap: wrap;
 }
 
-/* Carte du jeu */
 .game-card {
-  background: linear-gradient(
-    135deg,
-    #8e44ad 20%,
-    #3498db 80%
-  ); /* Dégradé de couleur */
+  background: linear-gradient(135deg, #8e44ad 20%, #3498db 80%);
   padding: 30px;
   margin: 30px;
-  border-radius: 12px; /* Coins plus arrondis */
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+  border-radius: 12px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 800px;
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Effet de survol */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .game-card:hover {
-  transform: translateY(-10px); /* Effet de survol : élève la carte */
-  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.3); /* Ombre plus forte lors du survol */
+  transform: translateY(-10px);
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 .game-card h1 {
   font-size: 36px;
   margin-bottom: 15px;
   text-align: center;
-  color: white; /* Texte blanc pour ressortir sur le dégradé */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Ombre portée pour le titre */
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 .game-card .game-image {
@@ -327,29 +339,23 @@ main {
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 20px;
-  border: 4px solid #fff; /* Bordure blanche pour l'image */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Ombre subtile autour de l'image */
+  border: 4px solid #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .game-card p {
   font-size: 18px;
   margin-bottom: 20px;
-  color: white; /* Texte blanc pour le contraste */
+  color: white;
 }
 
 .game-card p strong {
   font-weight: 700;
-  color: #ecf0f1; /* Couleur plus claire pour le texte important */
+  color: #ecf0f1;
 }
 
-/* Informations supplémentaires */
 .additional-info {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.5
-  ); /* Fond semi-transparent pour les informations supplémentaires */
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 20px;
   margin-top: 20px;
   border-radius: 8px;
@@ -371,14 +377,7 @@ main {
   display: flex;
   height: 200px;
   width: 200px;
+  position: absolute;
   left: 70%;
   top: -30%;
-}
-
-nav {
-  background-color: #444;
-  padding: 15px 0;
-  display: flex;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
