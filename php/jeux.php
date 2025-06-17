@@ -207,6 +207,35 @@ echo '<button class="value">
     }
 }
 
+echo " <form method= 'post'>
+        <input type ='hidden' name ='pret' value='1'>
+                <button type='submit'> Faire un pret</button></form>";
+                
+       
+            if (isset($_POST['pret'])) {
+                
+             try {   
+            $boite_id = $model->getBoiteIdParTitre($_GET['titre']);}
+            catch (Exception $e) {echo "erreur1"; }
+           
+
+            if ($boite_id) { 
+               
+
+                try{
+                $pret = $model->ajouterPret($boite_id, $_SESSION['emprunteur_id']);}
+                catch (Exception $e) {echo "erreur2"; }
+                if ($pret) {
+                    echo "<p> Prêt ajouté avec succès</p>";
+                } else {
+                    echo "<p>Erreur lors de l'ajout du prêt</p>";
+                }
+            } else {
+                echo "<p> Boîte non trouvée pour ce titre</p>";
+            }
+        }
+    
+
     echo "</main>
     <footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
