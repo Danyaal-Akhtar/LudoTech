@@ -207,33 +207,55 @@ echo '<button class="value">
     }
 }
 
-echo " <form method= 'post'>
-        <input type ='hidden' name ='pret' value='1'>
-                <button type='submit'> Faire un pret</button></form>";
-                
-       
-            if (isset($_POST['pret'])) {
-                
-             try {   
-            $boite_id = $model->getBoiteIdParTitre($_GET['titre']);}
-            catch (Exception $e) {echo "erreur1"; }
-           
 
-            if ($boite_id) { 
-               
+if (isset($_POST['pret'])) {
+                
+    try {   
+   $boite_id = $model->getBoiteIdParTitre($_GET['titre']);}
+   catch (Exception $e) {echo "erreur1"; }
+  
+   $pretDejaFait = false;
+   if ($boite_id) { 
+       $pretDejaFait = $model->pretExisteDeja($boite_id, $_SESSION['emprunteur_id']);
+       if ($pretDejaFait) {
+           echo "<p> Vous avez déjà emprunté ce jeu.</p>";
+       } else {
+      
 
-                try{
-                $pret = $model->ajouterPret($boite_id, $_SESSION['emprunteur_id']);}
-                catch (Exception $e) {echo "erreur2"; }
-                if ($pret) {
-                    echo "<p> Prêt ajouté avec succès</p>";
-                } else {
-                    echo "<p>Erreur lors de l'ajout du prêt</p>";
-                }
-            } else {
-                echo "<p> Boîte non trouvée pour ce titre</p>";
-            }
-        }
+       try{
+       $pret = $model->ajouterPret($boite_id, $_SESSION['emprunteur_id']);}
+       catch (Exception $e) {echo "erreur2"; }
+       if ($pret) {
+          
+           echo "<p> Prêt ajouté avec succès</p>"; 
+           $pretDejaFait = true;
+       } else {
+           echo "<p>Erreur lors de l'ajout du prêt</p>";
+       }
+   }}
+    else {
+       echo "<p> Boîte non trouvée pour ce titre</p>";
+   }
+}
+
+   else{
+       $boite_id = $model->getBoiteIdParTitre($_GET['titre']);
+       if ($boite_id) {
+           $pretDejaFait = $model->pretExisteDeja($boite_id, $_SESSION['emprunteur_id']);
+       } else {  $pretDejaFait = false;
+   }
+}
+
+
+echo "<form method='post'>";
+echo "<input type='hidden' name='pret' value='1'>";
+if ($pretDejaFait) {
+echo "<button type='submit' disabled>Faire un prêt</button>";
+} else {
+echo "<button type='submit'>Faire un prêt</button>";
+}
+echo "</form>";
+
     
 
     echo "</main>
