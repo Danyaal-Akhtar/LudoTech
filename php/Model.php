@@ -163,6 +163,30 @@ class Model {
         $requete->execute();
         return $requete->fetchAll(PDO::FETCH_ASSOC); // Retourne toutes les lignes
     }
+
+    public function 
+    getBoiteIdParTitre($titre) {
+
+        $requete= $this->bd->prepare(" SELECT boite_id FROM Boites JOIN Jeux USING(jeu_id) WHERE Jeux.titre = :titre");
+        $requete->bindValue(":titre", $titre, PDO::PARAM_STR);
+        $requete->execute();
+        $result = $requete->fetch(PDO::FETCH_ASSOC);
+        
+        return $result ? $result['boite_id'] : null;
+
+        
+    }
+
+    public function ajouterPret($boite,$emprun){
+
+        $requete = $this->bd->prepare(" INSERT INTO Prets (boite_id, emprunteur_id, date_emprunt, date_retour) 
+        VALUES (:boite_id, :emprunteur_id, NOW(), NULL)");
+        $requete->bindValue(':boite_id',$boite ,PDO::PARAM_INT);
+        $requete->bindValue(':emprunteur_id',$emprun, PDO::PARAM_INT);
+        return $requete->execute();
+
+
+    }
        
 }
 
