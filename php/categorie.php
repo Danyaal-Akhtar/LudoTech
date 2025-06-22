@@ -94,8 +94,7 @@ init_php_session();
             $model = Model::getModel();
             $jeux= $model->getJeuByMecanismes($_GET['meca']); 
             
-//dff           
-        
+
 
             echo "<div class= taille><div class=liste-jeu>";
             foreach ($jeux as $j) {

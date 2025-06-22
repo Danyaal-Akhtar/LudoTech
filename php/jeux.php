@@ -117,6 +117,8 @@ echo '<button class="value">
 
     $index_img = 5; 
 
+    //dwdww
+
     $regex_meca = '/' . preg_quote($meca, '/') . '/i';
 
     foreach ($tab_cat as $key => $val) {
