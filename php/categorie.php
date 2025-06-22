@@ -93,7 +93,7 @@ init_php_session();
        if(isset($_GET['meca'])){
             $model = Model::getModel();
             $jeux= $model->getJeuByMecanismes($_GET['meca']); 
-            
+            //ff
            
         
 
