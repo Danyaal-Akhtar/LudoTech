@@ -24,7 +24,7 @@ if (isset($_GET['titre']) && !empty($_GET['titre'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Détails du Jeu</title>
     <link rel='icon' href='/img/logo.png'>
-    <link rel='stylesheet' href='/css/jeux.css'>
+    <link rel='stylesheet' href='/css/jeuxxx.css'>
 </head>
 <body>
     <header>
@@ -163,7 +163,7 @@ echo '<button class="value">
     echo "</main>
     <footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales | Politique de confidentialité</p>
+      
     </footer>
     <script src='/dashboard.js'></script>
 </body>
