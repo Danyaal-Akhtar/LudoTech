@@ -230,6 +230,7 @@ footer {
   z-index: 10;
 }
 
+
 footer p {
   margin: 5px 0;
 }
@@ -254,4 +255,117 @@ footer p {
   .game-card {
     max-width: 90%;
   }
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 18px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+    
+}
+
+.poubelle {
+  position: relative;
+  left: 90%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+#edit {
+  position: relative;
+  left: 90%;
+  width: 37px;
+  height: 37px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.pop-up-delete {
+  display: none;
+  position: absolute;
+  background: linear-gradient(135deg, #3d2317 0%, #4a2c1a 100%);
+  color: #f5deb3;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  border: 3px solid #cd853f;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  font-family: "Georgia", serif;
+  font-size: 18px;
+  text-align: center;
+}
+
+.btn-delete {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.btn-delete input {
+  background: #a52a2a;
+  color: #f5deb3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-delete input:hover, .modify-game .btn_modifier:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  background-color: #cd853f;
+}
+
+.modify-game {
+  display: none;
+  position: absolute;
+  background: linear-gradient(135deg, #3d2317 0%, #4a2c1a 100%);
+  color: #f5deb3;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  border: 3px solid #cd853f;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  font-family: "Georgia", serif;
+  font-size: 18px;
+  text-align: center;
+}
+
+.modify-game input {
+  background: #a52a2a;
+  color: #f5deb3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin: 7px;
+}
+
+.modify-game .btn_modifier {
+  color: #a52a2a;
+  background-color: #f5deb3;
 }

@@ -105,10 +105,14 @@ echo '<button class="value">
    
    
     
-    if (preg_match('/^[^\/]+/', $meca, $matches)) { 
-        $meca = trim($matches[0]); 
-    } else {
-        $meca = ''; 
+    if (!empty($mecanisme) && isset($mecanisme[0]['nom'])) {
+        $meca = $mecanisme[0]['nom'];
+
+        if (is_string($meca) && preg_match('/^[^\/]+/', $meca, $matches)) {
+            $meca = trim($matches[0]);
+        } else {
+            $meca = '';
+        }
     }
 
     $index_img = 5; 
@@ -135,8 +139,11 @@ echo '<button class="value">
                 <p><strong>Nombre de joueurs :</strong> " . htmlspecialchars($res['nombre_de_joueurs'] ?? 'Non renseignée') . "</p>
                 <p><strong>Âge :</strong> " . htmlspecialchars($res['age_indique'] ?? 'Non renseignée') . "</p>
                 <p><strong>Description (mots-clés) :</strong> " . nl2br(htmlspecialchars($res['mots_cles'] ?? 'Non renseignée')) . "</p>
-                 <img alt='cat' class='img_cat' src='/img/cat/" . htmlspecialchars($tab_img[$index_img]) . "'></img>
-            </section>";
+                <img alt='cat' class='img_cat' src='/img/cat/" . htmlspecialchars($tab_img[$index_img]) . "'></img>";
+            if(is_curator() || is_admin()){
+                echo "<input type='image' src='/img/crayon.png' id='edit' onclick='document.querySelector(\".modify-game\").style.display=\"block\"'/>
+                <input type='image' src='/img/poubelle.png' class='poubelle' onclick='document.querySelector(\".pop-up-delete\").style.display=\"block\"'/>
+            </section>";}
             break;
         }
     } else {
@@ -160,8 +167,231 @@ echo '<button class="value">
         echo "<p>Aucun auteur trouvé pour ce jeu.</p>";
     }
 
-    echo "</main>
-    <footer>
+    if (isset($_POST['delete'])) {
+    $model = Model::getModel();
+    $resultat = $model->getJeuByTitre($_GET['titre']);
+
+    if (!empty($resultat)) {
+        $jeu_id = $resultat[0]['jeu_id'];
+        try {
+            $conn = $model->getPDO();
+
+            $conn->prepare("DELETE FROM Prets WHERE boite_id IN (SELECT boite_id FROM Boites WHERE jeu_id = :jeu_id)")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM Boites WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuAuteur WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuEditeur WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuCategories WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM JeuMecanisme WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $conn->prepare("DELETE FROM Jeux WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            header("Location: /home.php");
+            exit;
+
+        } catch (Exception $e) {
+            echo "Erreur de suppression.";
+            }
+        }
+    }   
+    if (isset($_POST['Modifier'])) {
+        $model = Model::getModel();
+        $conn = $model->getPDO();
+        $resultat = $model->getJeuByTitre($_GET['titre']);
+        
+        $jeu_id = $resultat[0]['jeu_id'];
+        $titre = $_POST['titre_modif'];
+        $date_debut = $_POST['date_debut_modif'];
+        $date_fin = $_POST['date_fin_modif'];
+        $info_date = $_POST['info_date_modif'];
+        $version = $_POST['version_modif'];
+        $nb_joueurs = $_POST['nb_joueurs_modif'];
+        $age = $_POST['age_modif'];
+        $mots_cles = $_POST['mots_cles_modif'];
+        $auteur = $_POST['auteur'];
+        $editeur = $_POST['editeur'];
+
+        $updateQuery = "UPDATE Jeux 
+        SET titre = :titre, 
+            date_parution_debut = :date_debut, 
+            date_parution_fin = :date_fin, 
+            information_date = :info_date, 
+            version = :version, 
+            nombre_de_joueurs = :nb_joueurs, 
+            age_indique = :age, 
+            mots_cles = :mots_cles 
+        WHERE jeu_id = :jeu_id";
+
+        $updateQuery = $conn->prepare($updateQuery);
+        
+        $updateQuery->bindValue(':titre', $titre, PDO::PARAM_STR);
+        $updateQuery->bindValue(':date_debut', $date_debut, PDO::PARAM_STR);
+        $updateQuery->bindValue(':date_fin', $date_fin, PDO::PARAM_STR);
+        $updateQuery->bindValue(':info_date', $info_date, PDO::PARAM_STR);
+        $updateQuery->bindValue(':version', $version, PDO::PARAM_STR);
+        $updateQuery->bindValue(':nb_joueurs', $nb_joueurs, PDO::PARAM_STR);
+        $updateQuery->bindValue(':age', $age, PDO::PARAM_STR);
+        $updateQuery->bindValue(':mots_cles', $mots_cles, PDO::PARAM_STR);
+        $updateQuery->bindValue(':mots_cles', $mots_cles, PDO::PARAM_STR);
+        $updateQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_STR);
+        $updateQuery->execute();
+
+        $deleteOldEditeurs = "DELETE FROM JeuEditeur WHERE jeu_id = :jeu_id";
+        $deleteOldEditeurs = $conn->prepare($deleteOldEditeurs);
+        $deleteOldEditeurs->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $deleteOldEditeurs->execute();
+
+        $insertEditeursQuery= "INSERT INTO Editeurs(nom) VALUES(:nom)";
+        $insertEditeursQuery = $conn->prepare($insertEditeursQuery);
+        $insertEditeursQuery->bindValue(':nom', $editeur, PDO::PARAM_STR);
+        $insertEditeursQuery->execute();
+
+        $editeur_id = $conn->lastInsertId();
+
+        $insertJeuEditeur = "INSERT IGNORE INTO JeuEditeur (jeu_id, editeur_id) VALUES (:jeu_id, :editeur_id)";
+        $insertJeuEditeur = $conn->prepare($insertJeuEditeur);
+        $insertJeuEditeur->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $insertJeuEditeur->bindValue(':editeur_id', $editeur_id, PDO::PARAM_INT);
+        $insertJeuEditeur->execute();
+
+        $deleteOldAuteurs = "DELETE FROM JeuAuteur WHERE jeu_id = :jeu_id";
+        $deleteOldAuteurs = $conn->prepare($deleteOldAuteurs);
+        $deleteOldAuteurs->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $deleteOldAuteurs->execute();
+
+        $insertAuteursQuery = "INSERT IGNORE INTO Auteurs(nom) VALUES(:nom)";
+        $insertAuteursQuery = $conn->prepare($insertAuteursQuery);
+        $insertAuteursQuery->bindValue(':nom', $auteur, PDO::PARAM_STR);
+        $insertAuteursQuery->execute();
+
+        $auteur_id = $conn->lastInsertId();
+
+        $insertJeuAuteur = "INSERT INTO JeuAuteur (jeu_id, auteur_id) VALUES (:jeu_id, :auteur_id)";
+        $insertJeuAuteur = $conn->prepare($insertJeuAuteur);
+        $insertJeuAuteur->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $insertJeuAuteur->bindValue(':auteur_id', $auteur_id, PDO::PARAM_INT);
+        $insertJeuAuteur->execute();
+
+        $deleteOldMecanismes = "DELETE FROM JeuMecanisme WHERE jeu_id = :jeu_id";
+        $deleteOldMecanismes = $conn->prepare($deleteOldMecanismes);
+        $deleteOldMecanismes->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $deleteOldMecanismes->execute();
+
+        $insertMecanismeQuery = "INSERT IGNORE INTO Mecanismes(nom) VALUES (:nom)";
+        $insertMecanismeStmt = $conn->prepare($insertMecanismeQuery);
+        $insertMecanismeStmt->bindValue(':nom', $mots_cles, PDO::PARAM_STR);
+        $insertMecanismeStmt->execute();
+
+        $mecanisme_id = $conn->lastInsertId();
+
+        $insertJeuMecanismeQuery = "INSERT INTO JeuMecanisme (jeu_id, mecanisme_id) VALUES (:jeu_id, :mecanisme_id)";
+        $insertJeuMecanismeStmt = $conn->prepare($insertJeuMecanismeQuery);
+        $insertJeuMecanismeStmt->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $insertJeuMecanismeStmt->bindValue(':mecanisme_id', $mecanisme_id, PDO::PARAM_INT);
+        $insertJeuMecanismeStmt->execute();
+
+        header("Location: jeux.php?titre=" . urlencode($titre));
+        exit;
+    }
+
+    if (isset($_POST['pret'])) {
+                    
+        try {   
+    $boite_id = $model->getBoiteIdParTitre($_GET['titre']);}
+    catch (Exception $e) {echo "erreur1"; }
+    
+    $pretDejaFait = false;
+    if ($boite_id) { 
+        $pretDejaFait = $model->pretExisteDeja($boite_id, $_SESSION['emprunteur_id']);
+        if ($pretDejaFait) {
+            echo "<p> Vous avez déjà emprunté ce jeu.</p>";
+        } else {
+        
+
+        try{
+        $pret = $model->ajouterPret($boite_id, $_SESSION['emprunteur_id']);}
+        catch (Exception $e) {echo "erreur2"; }
+        if ($pret) {
+            
+            echo "<p> Prêt ajouté avec succès</p>"; 
+            $pretDejaFait = true;
+        } else {
+            echo "<p>Erreur lors de l'ajout du prêt</p>";
+        }
+    }}
+        else {
+        echo "<p> Boîte non trouvée pour ce titre</p>";
+    }
+    }
+
+    else{
+        $boite_id = $model->getBoiteIdParTitre($_GET['titre']);
+        if ($boite_id) {
+            $pretDejaFait = $model->pretExisteDeja($boite_id, $_SESSION['emprunteur_id']);
+        } else {  $pretDejaFait = false;
+    }
+    }
+
+
+    echo "<form method='post'>";
+    echo "<input type='hidden' name='pret' value='1'>";
+    if ($pretDejaFait) {
+    echo "<button type='submit' disabled>Faire un prêt</button>";
+    } else {
+    echo "<button type='submit'>Faire un prêt</button>";
+    }
+    echo "</form>";
+
+    $resultat = $model->getJeuByTitre($_GET['titre']);
+    $editeur = $model->getEditeurByTitre($titre);
+    $auteurs = $model->getAuteursByTitre($titre);
+    
+    echo "</main>";
+    if(is_curator() || is_admin()){ // On affiche les pop-up uniquement pour les curateurs et admin
+    echo "<div class='modify-game'>
+        <h1>Modifier Informations<h1>
+        <form method='POST'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['titre'], ENT_QUOTES)."' name='titre_modif'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['date_parution_debut'], ENT_QUOTES)."' name='date_debut_modif'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['date_parution_fin'], ENT_QUOTES)."' name='date_fin_modif'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['information_date'], ENT_QUOTES)."' name='info_date_modif'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['version'], ENT_QUOTES)."' name='version_modif'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['nombre_de_joueurs'], ENT_QUOTES)."' name='nb_joueurs_modif'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['age_indique'], ENT_QUOTES)."' name='age_modif'>
+            <input type='text' value='".htmlspecialchars($resultat[0]['mots_cles'], ENT_QUOTES)."' name='mots_cles_modif'>
+            <input type='text' value='".htmlspecialchars($auteurs['nom'], ENT_QUOTES)."' name='auteur'>
+            <input type='text' value='".htmlspecialchars($editeur['nom'], ENT_QUOTES)."' name='editeur'>
+            <div>
+                <input type='button' value='Annuler' class='btn_modifier' onclick='document.querySelector(\".modify-game\").style.display=\"none\"' />
+                <input type='submit' class='btn_modifier' name='Modifier' value='Modifier' id='button'>            
+            </div>    
+        </form>
+    </div>
+
+    </div>
+    <div class='pop-up-delete'>
+        <p>
+        Êtes vous sûr de vouloir supprimer ce Jeu ? 
+        </p>
+        <div class='btn-delete'>
+            <input type='submit' value='Annuler' onclick='document.querySelector(\".pop-up-delete\").style.display=\"none\"' />
+        <form method='POST'>
+            <input type='submit' value='Supprimer' name='delete'>
+        </form>
+        </div>
+    </div>";} 
+    echo "<footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
       
     </footer>
