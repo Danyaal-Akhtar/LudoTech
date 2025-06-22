@@ -32,7 +32,7 @@ if (isset($_SESSION['nom'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8">
     <link rel="icon" href="../img/logo.png">
-    <link rel='stylesheet' href='../css/compte.css'>
+    <link rel='stylesheet' href='../css/comptee.css'>
     <title>Mon Compte - LudoTech</title>
 </head>
 <body>

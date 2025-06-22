@@ -393,7 +393,7 @@ echo '<button class="value">
     </div>";} 
     echo "<footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales | Politique de confidentialité</p>
+      
     </footer>
     <script src='/dashboard.js'></script>
 </body>

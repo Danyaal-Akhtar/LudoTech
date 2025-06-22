@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/img/logo.png">
     <title>Contactez-nous - LudoTech</title>
-    <link rel="stylesheet" href="/css/contact.css">
+    <link rel="stylesheet" href="/css/contacte.css">
 </head>
 <body>
   
@@ -86,7 +86,7 @@
     
     <footer>
         <p>&copy; 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales | Politique de confidentialité</p>
+      
     </footer>
     <script src="/dashboard.js"></script>
 </body>
