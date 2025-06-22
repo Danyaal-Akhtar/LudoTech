@@ -57,7 +57,7 @@
     $insertCollectionQuery->bindValue(':nom', $form_collection, PDO::PARAM_STR);
     $insertCollectionQuery->execute();
 
-    $insertJeuQuery= "INSERT INTO Jeux(titre, date_parution_debut, date_parution_fin, information_date, version, nombre_de_joueurs, age_indique, mots_cles,                      mecanisme_id)
+    $insertJeuQuery= "INSERT INTO Jeux(titre, date_parution_debut, date_parution_fin, information_date, version, nombre_de_joueurs, age_indique, mots_cles, mecanisme_id)
                     VALUES(:titre, :date_parution, :date_parution_fin, :information_date, :version, :nb_joueur, :age, :mots_cles, :mecanisme_id)";
     $insertJeuQuery = $conn->prepare($insertJeuQuery);
     $insertJeuQuery->bindValue(':titre', $form_titre, PDO::PARAM_STR);
