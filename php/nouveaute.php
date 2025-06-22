@@ -29,7 +29,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../img/logo.png">
     <title>Nouveautés</title>
-    <link rel="stylesheet" href="../css/nouveaute.css"> 
+    <link rel="stylesheet" href="/css/nouveaute.css"> 
 </head>
 <body>
     <header>
