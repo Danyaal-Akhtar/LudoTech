@@ -54,7 +54,8 @@
 
         if (password_verify($form_password, $bcrypt_pass)) {
             $_SESSION['nom'] = $nom;          
-            $_SESSION['role_id'] = $rank;    
+            $_SESSION['role_id'] = $rank;  
+            $_SESSION['emprunteur_id'] = $result['emprunteur_id'];    
             header('location: home.php');
         } else {
             echo '<span id="error">Nom d\'utilisateur ou mot de passe incorrect</span>';
