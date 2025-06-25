@@ -353,9 +353,9 @@ echo '<button class="value">
     echo "<form method='post'>";
     echo "<input type='hidden' name='pret' value='1'>";
     if ($pretDejaFait) {
-    echo "<button type='submit' disabled>Faire un prêt</button>";
+    echo "<button type='submit' class='btn-pret' disabled>Faire un prêt</button>";
     } else {
-    echo "<button type='submit'>Faire un prêt</button>";
+    echo "<button type='submit' class='btn-pret'>Faire un prêt</button>";
     }
     echo "</form>";
 
