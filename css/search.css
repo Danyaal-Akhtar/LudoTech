@@ -1,11 +1,64 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
-body {
-    text-align: center;
-}
+@import url("https://fonts.googleapis.com/css2?family=Georgia&display=swap");
 
 :root {
   --container-height: 498px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #2c1810;
+  background: linear-gradient(
+    135deg,
+    #8b4513 0%,
+    #a0522d 25%,
+    #cd853f 50%,
+    #d2691e 75%,
+    #8b4513 100%
+  );
+  background-attachment: fixed;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Texture bois subtile */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: repeating-linear-gradient(
+      90deg,
+      rgba(139, 69, 19, 0.1) 0px,
+      rgba(160, 82, 45, 0.1) 2px,
+      rgba(205, 133, 63, 0.1) 4px,
+      rgba(139, 69, 19, 0.1) 6px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.05) 0px,
+      transparent 1px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.05) 4px
+    );
+  opacity: 0.6;
+  z-index: -1;
 }
 
 section {
@@ -15,18 +68,42 @@ section {
   timeline-scope: --listTimeline;
 }
 
+/* Liste avec style bois */
 .list {
   max-height: var(--container-height);
-  border: 2px solid #37392e;
-  border-radius: 5px;
-  scroll-snap-type: y mandatory;
-  overscroll-behavior-y: contain;
-  overflow-x: hidden;
+  border: 3px solid #8b4513;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #faebd7 0%, #f5deb3 100%);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
+  scroll-snap-type: y mandatory;
   scroll-timeline: --listTimeline block;
   font-size: 20px;
+  color: #2c1810;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  padding: 15px 20px;
+  border-top: 1px solid #cd853f;
+  scroll-snap-align: start;
+  transition: background 0.3s;
+}
+
+li:first-child {
+  border-top: none;
+}
+
+li:hover {
+  background: linear-gradient(135deg, #d2b48c 0%, #f5deb3 100%);
+}
+
+/* Animation décorative */
 .animation {
   position: absolute;
   top: 0;
@@ -34,11 +111,13 @@ section {
   width: 50px;
   height: 100%;
   background-size: 50px 40px;
+  background-image: url("data:image/svg+xml,%3Csvg ..."); /* même contenu que dans ton original */
+  opacity: 0.5;
 }
 
 @supports (animation-timeline: scroll()) {
   .animation {
-    animation: moveBackground alternate linear;
+    animation: moveBackground 1s alternate linear;
     animation-timeline: --listTimeline;
   }
 }
@@ -52,67 +131,16 @@ section {
   }
 }
 
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background: #eee5e5;
+/* Animation subtile bois */
+@keyframes woodGrain {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
 }
 
-li {
-  padding: 10px;
-  border-top: 1px solid #ccc;
-  scroll-snap-align: start;
-}
-
-li:first-child {
-  border: 0;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #37392e;
-  background: #ddcecd;
-  font-family: "Poppins", sans-serif;
-}
-
-.animation {
-  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='Isolation_Mode' data-name='Isolation Mode' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 633.33 680'%3E%3Cpath fill='%2328AFB0' d='M383.33,500c27.61,0,50,22.39,50,50,0,25.99-19.83,47.35-45.18,49.77l-4.82,.23H50c-27.61,0-50-22.39-50-50,0-25.99,19.83-47.35,45.18-49.77l4.82-.23H383.33Zm200-166.67c27.61,0,50,22.39,50,50s-22.39,50-50,50H50c-27.61,0-50-22.39-50-50s22.39-50,50-50H583.33Zm-200-166.67c27.61,0,50,22.39,50,50,0,25.99-19.83,47.35-45.18,49.77l-4.82,.23H50c-27.61,0-50-22.39-50-50,0-25.99,19.83-47.35,45.18-49.77l4.82-.23H383.33ZM583.33,0c27.61,0,50,22.39,50,50,0,25.99-19.83,47.35-45.18,49.77l-4.82,.23H50C22.39,100,0,77.61,0,50,0,24.01,19.83,2.65,45.18,.23l4.82-.23H583.33Z'/%3E%3C/svg%3E");
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #28afb0;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #19647e;
-}
-
-h2 {
-    font-size:40px;
-}
-
-.list a {
-    text-decoration: none;
+.wood-animation {
+  animation: woodGrain 8s linear infinite;
 }

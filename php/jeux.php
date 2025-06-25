@@ -24,11 +24,17 @@ if (isset($_GET['titre']) && !empty($_GET['titre'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Détails du Jeu</title>
     <link rel='icon' href='/img/logo.png'>
+    <link rel='stylesheet' href='/css/index.css'> 
     <link rel='stylesheet' href='/css/jeux.css'>
 </head>
 <body>
     <header>
         <img src='../img/logo.png' alt='LudoTech' class='logo'>
+        <div class='search-container'>
+            <form method='POST' action='/php/search.php'>
+                <input type='text' name = 's' placeholder='Rechercher un jeu, un éditeur, ...   '>
+            </form>
+        </div>
         <div class='profile'>";
         
 if(is_logged()):
@@ -347,9 +353,9 @@ echo '<button class="value">
     echo "<form method='post'>";
     echo "<input type='hidden' name='pret' value='1'>";
     if ($pretDejaFait) {
-    echo "<button type='submit' disabled>Faire un prêt</button>";
+    echo "<button type='submit' class='btn-pret' disabled>Faire un prêt</button>";
     } else {
-    echo "<button type='submit'>Faire un prêt</button>";
+    echo "<button type='submit' class='btn-pret'>Faire un prêt</button>";
     }
     echo "</form>";
 
@@ -393,7 +399,7 @@ echo '<button class="value">
     </div>";} 
     echo "<footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales | Politique de confidentialité</p>
+      
     </footer>
     <script src='/dashboard.js'></script>
 </body>

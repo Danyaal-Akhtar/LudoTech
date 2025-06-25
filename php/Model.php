@@ -47,38 +47,72 @@ class Model {
         
         return false;
     }
-
-        public function rechercheb() {
+    public function rechercheb() {
         if (isset($_POST['s']) && !empty($_POST['s'])) {
             $search = htmlspecialchars($_POST['s']);
-    
+            $results = [];
+
+            // Requête par titre
+            $queryTitle = $this->bd->prepare('SELECT * FROM Jeux WHERE titre LIKE :search ORDER BY jeu_id DESC');
+            $queryTitle->execute(['search' => '%' . $search . '%']);
+            $resultsTitle = $queryTitle->fetchAll(PDO::FETCH_ASSOC);
+
+            // Requête par éditeur
+            $queryEditeur = $this->bd->prepare('
+                SELECT j.* FROM Jeux j
+                JOIN JeuEditeur je ON j.jeu_id = je.jeu_id
+                JOIN Editeurs e ON je.editeur_id = e.editeur_id
+                WHERE e.nom LIKE :search
+                ORDER BY j.jeu_id DESC
+            ');
+            $queryEditeur->execute(['search' => '%' . $search . '%']);
+            $resultsEditeur = $queryEditeur->fetchAll(PDO::FETCH_ASSOC);
+
+            // Requête par auteur
+            $queryAuteur = $this->bd->prepare('
+                SELECT j.* FROM Jeux j
+                JOIN JeuAuteur ja ON j.jeu_id = ja.jeu_id
+                JOIN Auteurs a ON ja.auteur_id = a.auteur_id
+                WHERE a.nom LIKE :search
+                ORDER BY j.jeu_id DESC
+            ');
+            $queryAuteur->execute(['search' => '%' . $search . '%']);
+            $resultsAuteur = $queryAuteur->fetchAll(PDO::FETCH_ASSOC);
+
+            // Requête par mécanisme
+            $queryMecanisme = $this->bd->prepare('
+                SELECT j.* FROM Jeux j
+                JOIN JeuMecanisme jm ON j.jeu_id = jm.jeu_id
+                JOIN Mecanismes m ON jm.mecanisme_id = m.mecanisme_id
+                WHERE m.nom LIKE :search
+                ORDER BY j.jeu_id DESC
+            ');
+            $queryMecanisme->execute(['search' => '%' . $search . '%']);
+            $resultsMecanisme = $queryMecanisme->fetchAll(PDO::FETCH_ASSOC);
+
+            // Recherche par date uniquement si c'est un nombre de 4 chiffres
+            $resultsDate = [];
             if (strlen($search) == 4 && is_numeric($search)) {
-               
-                $query = $this->bd->prepare('SELECT * FROM Jeux WHERE date_parution_debut = :search ORDER BY jeu_id DESC');
-                $query->execute(['search' => $search]);
-               
-                $queryTitle = $this->bd->prepare('SELECT * FROM Jeux WHERE titre LIKE :search ORDER BY jeu_id DESC');
-                $queryTitle->execute(['search' => '%' . $search . '%']);
-    
-              
-                $results = $query->fetchAll(PDO::FETCH_ASSOC);
-               
-                $resultsTitle = $queryTitle->fetchAll(PDO::FETCH_ASSOC);
-    
-                $results = array_merge($results, array_diff_key($resultsTitle, $results));
-    
-                return $results;
-            } 
-            else {
-             
-                $query = $this->bd->prepare('SELECT * FROM Jeux WHERE titre LIKE :search ORDER BY jeu_id DESC');
-                $query->execute(['search' => '%' . $search . '%']);
-                return $query->fetchAll(PDO::FETCH_ASSOC);
+                $queryDate = $this->bd->prepare('SELECT * FROM Jeux WHERE date_parution_debut = :search ORDER BY jeu_id DESC');
+                $queryDate->execute(['search' => $search]);
+                $resultsDate = $queryDate->fetchAll(PDO::FETCH_ASSOC);
             }
+
+            // Fusionner tous les résultats
+            $allResults = array_merge($resultsTitle, $resultsEditeur, $resultsAuteur, $resultsMecanisme, $resultsDate);
+
+            // Supprimer les doublons par jeu_id
+            $uniqueResults = [];
+            foreach ($allResults as $item) {
+                $uniqueResults[$item['jeu_id']] = $item;
+            }
+
+            return array_values($uniqueResults);
         }
-    
-        return false; 
+
+        return false;
     }
+
 
         // Requête pour chercher un jeu par son titre
         public function getJeuByTitre($titre) {
@@ -179,8 +213,8 @@ class Model {
 
     public function ajouterPret($boite,$emprun){
 
-        $requete = $this->bd->prepare(" INSERT INTO Prets (boite_id, emprunteur_id, date_emprunt, date_retour) 
-        VALUES (:boite_id, :emprunteur_id, NOW(), NOW() + INTERVAL 2 WEEK");
+        $requete = $this->bd->prepare("INSERT INTO Prets (boite_id, emprunteur_id, date_emprunt, date_retour) 
+        VALUES (:boite_id, :emprunteur_id, NOW(), NOW() + INTERVAL 2 WEEK)");
         $requete->bindValue(':boite_id',$boite ,PDO::PARAM_INT);
         $requete->bindValue(':emprunteur_id',$emprun, PDO::PARAM_INT);
         return $requete->execute();

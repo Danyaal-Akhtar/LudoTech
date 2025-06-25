@@ -100,7 +100,7 @@
         echo '<span class="error">.'.'Erreur d\'Insertion, verifiez les formats des champs !'.'</span>';
     }
 }
-
+//pprw
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -108,7 +108,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8">
     <link rel="icon" href="../img/logo.png">
-    <link rel='stylesheet' href='../css/ajouter.css'>
+    <link rel="stylesheet" href="/css/index.css"> 
+    <link rel='stylesheet' href='/css/ajouter.css'>
     <title>LudoTech - Ajouter un Jeu</title>
 </head>
 <body>
@@ -153,10 +154,9 @@
             <a href="logout.php">Déconnexion</a>
         </button>
     </div>
-    <span class="title">- Ajouter un Jeu de Société -</span>
-    <img class='logoform' src="../img/logo.png" alt="LudoTech">
     <div class='ajouter'>
         <form class="form" method='POST'>
+        <h1 class="title">- Ajouter un Jeu de Société -</h1>
         <div class="form_control">
             <input type="text" name='titre' class="input" required="">
             <label class="label">Titre</label>
@@ -209,8 +209,7 @@
         </form>
     </div>
     <footer>
-        <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales | Politique de confidentialité</p>
+       <p>&copy; 2025 LudoTech | Tous droits réservés.</p>
     </footer>
 
     <script src="/dashboard.js"></script>

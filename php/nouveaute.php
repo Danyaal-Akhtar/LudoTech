@@ -29,6 +29,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../img/logo.png">
     <title>Nouveautés</title>
+    <link rel="stylesheet" href="/css/index.css"> 
     <link rel="stylesheet" href="/css/nouveaute.css"> 
 </head>
 <body>
@@ -52,7 +53,7 @@ try {
     </header>
 
     <nav>
-        <a href="/php/nouveaute.php">Nouveauté</a>
+        <a href="/php/nouveaute.php">Nouveautés</a>
         <a href="/php/EnsembleJeux.php?page=1">Ensemble des Jeux</a>
         <a href="/php/categorie.php">Catégories</a>
         <a href="/php/a-propos.php">À propos</a>
@@ -104,7 +105,7 @@ try {
     
     <footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales</a> | Politique de confidentialité</a></p>
+      
     </footer>
     <script src="/dashboard.js"></script>
 </body>

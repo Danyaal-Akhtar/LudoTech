@@ -15,7 +15,9 @@
     <link rel="icon" href="/img/logo.png">
     <meta name="description" content="Découvrez-en plus sur notre mission, nos valeurs et notre histoire.">
     <title>À propos</title>
+    <link rel="stylesheet" href="/css/index.css"> 
     <link rel="stylesheet" href="/css/a-propos.css"> 
+    
 </head>
 
 <body>
@@ -76,7 +78,7 @@
 
     <footer>
         <p>&copy; 2025 LudoTech | Tous droits réservés.</p>
-        Mentions légales | Politique de confidentialité</p>
+        
     </footer>
     <script src="../dashboard.js"></script>
 </body>

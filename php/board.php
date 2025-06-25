@@ -50,14 +50,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8">
     <link rel="icon" href="/img/logo.png">
-    <link rel='stylesheet' href='../css/board.css'>
+    <link rel="stylesheet" href="/css/index.css"> 
+    <link rel='stylesheet' href='/css/board.css'>
     <title>LudoTech - Tableau de Bord</title>
 </head>
 <body>
     <header>
         <img src="/img/logo.png" alt="LudoTech" class='logo'>
         <div class="search-container">
-            <input type="text" placeholder="Rechercher un jeu, un éditeur, ...   ">
+            <form method="POST" action='/php/search.php'>
+                <input type="text" name = "s" placeholder="Rechercher un jeu, un éditeur, ...   ">
+            </form>
         </div>
         <div class="profile">
         <?php if(is_logged()): ?>
@@ -165,8 +168,7 @@ if (!empty($res)) {
     </table>
         </div>
     <footer>
-        <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales | Politique de confidentialité</p>
+        <p>&copy; 2025 LudoTech | Tous droits réservés.</p>
     </footer>
 
     <script src="/dashboard.js"></script>

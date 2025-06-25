@@ -15,18 +15,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="img/logo.png">
+    <link rel='stylesheet' href='css/index.css'>
+
     <link rel='stylesheet' href='css/style.css'>
     <title>LudoTech</title>
 </head>
 <body>
     <header>
-        <img src="img/logo.png" alt="LudoTech">
+        <img src="img/logo.png" alt="LudoTech" class='logo'>
         <div class="search-container">
             <form method="POST" action='php/search.php'>
                 <input type="text" name = "s" placeholder="Rechercher un jeu, un éditeur, ...   ">
             </form>
         </div>
-        <div class="profile">
+        <div class="profile">           
         <?php if(is_logged()): ?>
                 <?= htmlspecialchars($_SESSION['nom']) ?>
         <?php else: ?>
@@ -83,7 +85,7 @@
     </div>
     <footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales</a> | Politique de confidentialité</a></p>
+       
     </footer>
 
     <script src="script.js"></script>

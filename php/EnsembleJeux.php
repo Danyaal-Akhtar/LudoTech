@@ -16,6 +16,7 @@ exit();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8">
     <link rel="icon" href="/img/logo.png">
+    <link rel="stylesheet" href="/css/index.css"> 
     <link rel='stylesheet' href='/css/EnsembleJeux.css'>
     <title>LudoTech - EnsembleJeux </title>
 </head>
@@ -123,7 +124,7 @@ echo "</div>";
         
                 <footer>
                     <p>© 2025 LudoTech | Tous droits réservés.</p>
-                    <p>Mentions légales | Politique de confidentialité</p>
+                    
                 </footer>
 
             <script src="/dashboard.js"></script>
