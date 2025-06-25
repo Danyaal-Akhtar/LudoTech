@@ -200,6 +200,17 @@ class Model {
         $result = $requete->fetch(PDO::FETCH_ASSOC);
         return $result['nb'] > 0;
     }
+
+
+
+    public function getPretsByEmpruId($emprunteur){
+
+
+        $requete =$this->bd->prepare("SELECT * FROM Prets where emprunteur_id = :emprunteur_id");
+        $requete->bindValue(':emprunteur_id',$emprunteur, PDO::PARAM_INT);
+        $requete->execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);    
+    }
        
 }
 
