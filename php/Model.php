@@ -211,6 +211,16 @@ class Model {
         $requete->execute();
         return $requete->fetchAll(PDO::FETCH_ASSOC);    
     }
+
+
+    public function getTitreByEmpruId($em){
+        $requete=$this->bd->prepare("SELECT titre FROM Jeux JOIN Boites USING(jeu_id) WHERE boite_id = :boite_id");
+        $requete->bindValue(':boite_id',$em,PDO::PARAM_INT);
+        $requete->execute();
+        $result = $requete->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['titre'] : null;
+
+}
        
 }
 
