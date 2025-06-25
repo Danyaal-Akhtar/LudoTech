@@ -213,8 +213,8 @@ class Model {
 
     public function ajouterPret($boite,$emprun){
 
-        $requete = $this->bd->prepare(" INSERT INTO Prets (boite_id, emprunteur_id, date_emprunt, date_retour) 
-        VALUES (:boite_id, :emprunteur_id, NOW(), NOW() + INTERVAL 2 WEEK");
+        $requete = $this->bd->prepare("INSERT INTO Prets (boite_id, emprunteur_id, date_emprunt, date_retour) 
+        VALUES (:boite_id, :emprunteur_id, NOW(), NOW() + INTERVAL 2 WEEK)");
         $requete->bindValue(':boite_id',$boite ,PDO::PARAM_INT);
         $requete->bindValue(':emprunteur_id',$emprun, PDO::PARAM_INT);
         return $requete->execute();
