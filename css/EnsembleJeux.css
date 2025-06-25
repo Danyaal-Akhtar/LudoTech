@@ -393,17 +393,16 @@ nav a:hover {
 
 /* Footer */
 footer {
+  position: absolute;
   text-align: center;
   padding: 20px;
-  background: linear-gradient(135deg, #2c1810 0%, #3d2317 50%, #2c1810 100%);
+  background: linear-gradient(135deg, #2c1810, #3d2317, #2c1810);
   color: #f5deb3;
   font-size: 15px;
   width: 100%;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
   border-top: 3px solid #8b4513;
-  position: absolute;
-  bottom: 0;
-  z-index: 10;
+  margin-top: 40px;
 }
 
 footer p {
