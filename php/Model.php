@@ -221,6 +221,12 @@ class Model {
         return $result ? $result['titre'] : null;
 
 }
+    public function suppPret($pret){
+        $requete= $this->bd->prepare("DELETE FROM Prets WHERE pret_id = :pret_id");
+        $requete->bindValue(':pret_id',$pret,PDO::PARAM_INT);
+        $requete->execute();
+    
+}
        
 }
 
