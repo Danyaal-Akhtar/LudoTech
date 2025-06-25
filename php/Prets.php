@@ -118,8 +118,6 @@ if(!isset($_SESSION['nom'])) {
                       $now = date('Y-m-d');
                       if ($res['date_retour'] < $now) {
                           echo "<span class='badge retard'>EN RETARD</span>";
-                      } elseif ($res['statut'] === 'retourne') {
-                          echo "<span class='badge retourne'>RETOURNÉ</span>";
                       } else {
                           echo "<span class='badge actif'>ACTIF</span>";
                       }
@@ -138,8 +136,6 @@ if(!isset($_SESSION['nom'])) {
 
     <div class="summary">
         <div>Total des prêts : <?= count($resultats) ?></div>
-        <div>Prêts actifs : <?= count(array_filter($resultats, fn($r) => $r['statut'] === 'actif')) ?></div>
-        <div>Prêts en retard : <?= count(array_filter($resultats, fn($r) => $r['date_retour'] < date('Y-m-d') && $r['statut'] !== 'retourne')) ?></div>
     </div>
 </div>
     
@@ -149,6 +145,6 @@ if(!isset($_SESSION['nom'])) {
         <p>&copy; 2025 LudoTech | Tous droits réservés.</p>
     </footer>
     <script src="/dashboard.js"></script>
-/
+
 </body>
 </html>
