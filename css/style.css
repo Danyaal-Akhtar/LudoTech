@@ -9,13 +9,20 @@ body {
 body {
   font-family: "Georgia", serif;
   font-weight: 600;
-  background: linear-gradient(135deg, #8b4513, #a0522d, #cd853f, #d2691e, #8b4513);
+  background: linear-gradient(
+    135deg,
+    #8b4513,
+    #a0522d,
+    #cd853f,
+    #d2691e,
+    #8b4513
+  );
   background-attachment: fixed;
   margin: 0;
   padding: 0;
   text-align: center;
   position: relative;
-  overflow-x:hidden;
+  overflow-x: hidden;
 }
 
 body::before {
@@ -23,9 +30,19 @@ body::before {
   position: fixed;
   inset: 0;
   background-image: repeating-linear-gradient(
-      90deg, rgba(139, 69, 19, 0.1) 0px, rgba(160, 82, 45, 0.1) 2px, rgba(205, 133, 63, 0.1) 4px, rgba(139, 69, 19, 0.1) 6px
+      90deg,
+      rgba(139, 69, 19, 0.1) 0px,
+      rgba(160, 82, 45, 0.1) 2px,
+      rgba(205, 133, 63, 0.1) 4px,
+      rgba(139, 69, 19, 0.1) 6px
     ),
-    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0px, transparent 1px, transparent 3px, rgba(0, 0, 0, 0.05) 4px);
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.05) 0px,
+      transparent 1px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.05) 4px
+    );
   opacity: 0.6;
   z-index: -1;
 }
@@ -224,7 +241,8 @@ header::before {
   border-radius: 25px;
   border: 3px solid #8b4513;
   background: linear-gradient(135deg, #f5deb3 0%, #faebd7 100%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(139, 69, 19, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(139, 69, 19, 0.1);
   font-weight: 600;
   color: #2c1810;
   outline: none;
