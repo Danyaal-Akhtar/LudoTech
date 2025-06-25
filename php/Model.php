@@ -222,14 +222,14 @@ class Model {
 
     }
 
-    public function pretExisteDeja($boite_id, $emprunteur_id) {
+    public function pretExisteDeja($boite_id) {
         $requete = $this->bd->prepare("
             SELECT COUNT(*) AS nb 
             FROM Prets
-            WHERE boite_id = :boite_id AND emprunteur_id = :emprunteur_id 
+            WHERE boite_id = :boite_id AND date_retour > NOW()
         ");
         $requete->bindValue(':boite_id', $boite_id, PDO::PARAM_INT);
-        $requete->bindValue(':emprunteur_id', $emprunteur_id, PDO::PARAM_INT);
+    
         $requete->execute();
         $result = $requete->fetch(PDO::FETCH_ASSOC);
         return $result['nb'] > 0;
