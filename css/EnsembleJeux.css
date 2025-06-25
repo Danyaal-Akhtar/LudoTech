@@ -199,7 +199,7 @@ nav a:hover {
   display: flex;
   flex-direction: column;
   width: 170px;
-  top: 12%;
+  top: 7%;
   left: 85%;
   background: linear-gradient(135deg, #2c1810 0%, #3d2317 100%);
   justify-content: center;
