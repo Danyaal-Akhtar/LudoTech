@@ -29,78 +29,17 @@
     $form_mots_cles = htmlspecialchars($_POST['mots_cles']);
     $form_mecanismes = htmlspecialchars($_POST['mecanismes']);
     $form_collection = htmlspecialchars($_POST['collection']);
-    
-    
-    $insertMecanismesQuery= "INSERT INTO Mecanismes(nom) VALUES(:nom)";
-    $insertMecanismesQuery = $conn->prepare($insertMecanismesQuery);
-    $insertMecanismesQuery->bindValue(':nom', $form_mecanismes, PDO::PARAM_STR);
-    $insertMecanismesQuery->execute();
 
-    $mecanisme_id = $conn->lastInsertId();
+    $res = $model->ajouterJeu($form_titre, $form_date_parution, $form_date_parution_fin, $form_auteur, $form_editeur, $form_information_date, $form_version, $form_nb_joueur, $form_age, $form_mots_cles, $form_mecanismes, $form_collection);
 
-    $insertAuteursQuery= "INSERT INTO Auteurs(nom) VALUES(:nom)";
-    $insertAuteursQuery = $conn->prepare($insertAuteursQuery);
-    $insertAuteursQuery->bindValue(':nom', $form_auteur, PDO::PARAM_STR);
-    $insertAuteursQuery->execute();
-
-    $auteur_id = $conn->lastInsertId();
-
-    $insertEditeursQuery= "INSERT INTO Editeurs(nom) VALUES(:nom)";
-    $insertEditeursQuery = $conn->prepare($insertEditeursQuery);
-    $insertEditeursQuery->bindValue(':nom', $form_editeur, PDO::PARAM_STR);
-    $insertEditeursQuery->execute();
-
-    $editeur_id = $conn->lastInsertId();
-
-    $insertCollectionQuery= "INSERT INTO Collection(nom) VALUES(:nom)";
-    $insertCollectionQuery = $conn->prepare($insertCollectionQuery);
-    $insertCollectionQuery->bindValue(':nom', $form_collection, PDO::PARAM_STR);
-    $insertCollectionQuery->execute();
-
-    $insertJeuQuery= "INSERT INTO Jeux(titre, date_parution_debut, date_parution_fin, information_date, version, nombre_de_joueurs, age_indique, mots_cles, mecanisme_id)
-                    VALUES(:titre, :date_parution, :date_parution_fin, :information_date, :version, :nb_joueur, :age, :mots_cles, :mecanisme_id)";
-    $insertJeuQuery = $conn->prepare($insertJeuQuery);
-    $insertJeuQuery->bindValue(':titre', $form_titre, PDO::PARAM_STR);
-    $insertJeuQuery->bindValue(':date_parution', $form_date_parution, PDO::PARAM_INT);
-    $insertJeuQuery->bindValue(':date_parution_fin', $form_date_parution_fin, PDO::PARAM_INT);
-    $insertJeuQuery  ->bindValue(':information_date', $form_information_date, PDO::PARAM_STR);
-    $insertJeuQuery  ->bindValue(':version', $form_version, PDO::PARAM_STR);
-    $insertJeuQuery  ->bindValue(':nb_joueur', $form_nb_joueur, PDO::PARAM_STR);
-    $insertJeuQuery  ->bindValue(':age', $form_age, PDO::PARAM_STR);
-    $insertJeuQuery  ->bindValue(':mots_cles', $form_mots_cles, PDO::PARAM_STR);
-    $insertJeuQuery->bindValue(':mecanisme_id', $mecanisme_id, PDO::PARAM_INT);
-   
-
-    $jeu_id = $conn->lastInsertId();
-
-    $insertJeuMecanismeQuery = "INSERT INTO JeuMecanisme(jeu_id, mecanisme_id) VALUES(:jeu_id, :mecanisme_id)";
-    $insertJeuMecanismeQuery = $conn->prepare($insertJeuMecanismeQuery);
-    $insertJeuMecanismeQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
-    $insertJeuMecanismeQuery->bindValue(':mecanisme_id', $mecanisme_id, PDO::PARAM_INT);
-    $insertJeuMecanismeQuery->execute();
-
-    $insertJeuAuteurQuery = "INSERT INTO JeuAuteur(jeu_id, auteur_id) VALUES(:jeu_id, :auteur_id)";
-    $insertJeuAuteurQuery = $conn->prepare($insertJeuAuteurQuery);
-    $insertJeuAuteurQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
-    $insertJeuAuteurQuery->bindValue(':auteur_id', $auteur_id, PDO::PARAM_INT);
-    $insertJeuAuteurQuery->execute();
-
-    $insertJeuEditeurQuery = "INSERT INTO JeuEditeur(jeu_id, editeur_id) VALUES(:jeu_id, :editeur_id)";
-    $insertJeuEditeurQuery = $conn->prepare($insertJeuEditeurQuery);
-    $insertJeuEditeurQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
-    $insertJeuEditeurQuery->bindValue(':editeur_id', $editeur_id, PDO::PARAM_INT);
-    $insertJeuEditeurQuery->execute();
-
-
-
-    if($insertJeuQuery->execute()){
+    if($res){
         echo '<span id="ajout"> Le Jeu a été Ajouté avec succès !</span>';
     } 
     else {
         echo '<span class="error">.'.'Erreur d\'Insertion, verifiez les formats des champs !'.'</span>';
     }
 }
-//pprw
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
