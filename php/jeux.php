@@ -29,6 +29,11 @@ if (isset($_GET['titre']) && !empty($_GET['titre'])) {
 <body>
     <header>
         <img src='../img/logo.png' alt='LudoTech' class='logo'>
+        <div class='search-container'>
+            <form method='POST' action='/php/search.php'>
+                <input type='text' name = 's' placeholder='Rechercher un jeu, un éditeur, ...   '>
+            </form>
+        </div>
         <div class='profile'>";
         
 if(is_logged()):
