@@ -260,8 +260,173 @@ class Model {
         $requete->bindValue(':pret_id',$pret,PDO::PARAM_INT);
         $requete->execute();
     
+} 
+    public function suppJeu($jeu_id){
+         $this->bd->prepare("DELETE FROM Prets WHERE boite_id IN (SELECT boite_id FROM Boites WHERE jeu_id = :jeu_id)")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $this->bd->prepare("DELETE FROM Boites WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $this->bd->prepare("DELETE FROM JeuAuteur WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $this->bd->prepare("DELETE FROM JeuEditeur WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $this->bd->prepare("DELETE FROM JeuCategories WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $this->bd->prepare("DELETE FROM JeuMecanisme WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
+
+            $this->bd->prepare("DELETE FROM Jeux WHERE jeu_id = :jeu_id")
+                 ->execute([':jeu_id' => $jeu_id]);
 }
-       
+    public function modifJeu($jeu_id, $titre, $date_debut, $date_fin, $info_date, $version, $nb_joueurs, $age, $mots_cles, $auteur, $editeur){
+        $updateQuery = "UPDATE Jeux 
+        SET titre = :titre, 
+            date_parution_debut = :date_debut, 
+            date_parution_fin = :date_fin, 
+            information_date = :info_date, 
+            version = :version, 
+            nombre_de_joueurs = :nb_joueurs, 
+            age_indique = :age, 
+            mots_cles = :mots_cles 
+        WHERE jeu_id = :jeu_id";
+
+        $updateQuery = $this->bd->prepare($updateQuery);
+        
+        $updateQuery->bindValue(':titre', $titre, PDO::PARAM_STR);
+        $updateQuery->bindValue(':date_debut', $date_debut, PDO::PARAM_STR);
+        $updateQuery->bindValue(':date_fin', $date_fin, PDO::PARAM_STR);
+        $updateQuery->bindValue(':info_date', $info_date, PDO::PARAM_STR);
+        $updateQuery->bindValue(':version', $version, PDO::PARAM_STR);
+        $updateQuery->bindValue(':nb_joueurs', $nb_joueurs, PDO::PARAM_STR);
+        $updateQuery->bindValue(':age', $age, PDO::PARAM_STR);
+        $updateQuery->bindValue(':mots_cles', $mots_cles, PDO::PARAM_STR);
+        $updateQuery->bindValue(':mots_cles', $mots_cles, PDO::PARAM_STR);
+        $updateQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_STR);
+        $updateQuery->execute();
+
+        $deleteOldEditeurs = "DELETE FROM JeuEditeur WHERE jeu_id = :jeu_id";
+        $deleteOldEditeurs = $this->bd->prepare($deleteOldEditeurs);
+        $deleteOldEditeurs->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $deleteOldEditeurs->execute();
+
+        $insertEditeursQuery= "INSERT INTO Editeurs(nom) VALUES(:nom)";
+        $insertEditeursQuery = $this->bd->prepare($insertEditeursQuery);
+        $insertEditeursQuery->bindValue(':nom', $editeur, PDO::PARAM_STR);
+        $insertEditeursQuery->execute();
+
+        $editeur_id = $this->bd->lastInsertId();
+
+        $insertJeuEditeur = "INSERT IGNORE INTO JeuEditeur (jeu_id, editeur_id) VALUES (:jeu_id, :editeur_id)";
+        $insertJeuEditeur = $this->bd->prepare($insertJeuEditeur);
+        $insertJeuEditeur->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $insertJeuEditeur->bindValue(':editeur_id', $editeur_id, PDO::PARAM_INT);
+        $insertJeuEditeur->execute();
+
+        $deleteOldAuteurs = "DELETE FROM JeuAuteur WHERE jeu_id = :jeu_id";
+        $deleteOldAuteurs = $this->bd->prepare($deleteOldAuteurs);
+        $deleteOldAuteurs->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $deleteOldAuteurs->execute();
+
+        $insertAuteursQuery = "INSERT IGNORE INTO Auteurs(nom) VALUES(:nom)";
+        $insertAuteursQuery = $this->bd->prepare($insertAuteursQuery);
+        $insertAuteursQuery->bindValue(':nom', $auteur, PDO::PARAM_STR);
+        $insertAuteursQuery->execute();
+
+        $auteur_id = $this->bd->lastInsertId();
+
+        $insertJeuAuteur = "INSERT INTO JeuAuteur (jeu_id, auteur_id) VALUES (:jeu_id, :auteur_id)";
+        $insertJeuAuteur = $this->bd->prepare($insertJeuAuteur);
+        $insertJeuAuteur->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $insertJeuAuteur->bindValue(':auteur_id', $auteur_id, PDO::PARAM_INT);
+        $insertJeuAuteur->execute();
+
+        $deleteOldMecanismes = "DELETE FROM JeuMecanisme WHERE jeu_id = :jeu_id";
+        $deleteOldMecanismes = $this->bd->prepare($deleteOldMecanismes);
+        $deleteOldMecanismes->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $deleteOldMecanismes->execute();
+
+        $insertMecanismeQuery = "INSERT IGNORE INTO Mecanismes(nom) VALUES (:nom)";
+        $insertMecanismeStmt = $this->bd->prepare($insertMecanismeQuery);
+        $insertMecanismeStmt->bindValue(':nom', $mots_cles, PDO::PARAM_STR);
+        $insertMecanismeStmt->execute();
+
+        $mecanisme_id = $this->bd->lastInsertId();
+
+        $insertJeuMecanismeQuery = "INSERT INTO JeuMecanisme (jeu_id, mecanisme_id) VALUES (:jeu_id, :mecanisme_id)";
+        $insertJeuMecanismeStmt = $this->bd->prepare($insertJeuMecanismeQuery);
+        $insertJeuMecanismeStmt->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+        $insertJeuMecanismeStmt->bindValue(':mecanisme_id', $mecanisme_id, PDO::PARAM_INT);
+        $insertJeuMecanismeStmt->execute();
+}
+
+    public function ajouterJeu($form_titre, $form_date_parution, $form_date_parution_fin, $form_auteur, $form_editeur, $form_information_date, $form_version, $form_nb_joueur, $form_age, $form_mots_cles, $form_mecanismes, $form_collection){
+            $insertMecanismesQuery= "INSERT INTO Mecanismes(nom) VALUES(:nom)";
+    $insertMecanismesQuery = $this->bd->prepare($insertMecanismesQuery);
+    $insertMecanismesQuery->bindValue(':nom', $form_mecanismes, PDO::PARAM_STR);
+    $insertMecanismesQuery->execute();
+
+    $mecanisme_id = $this->bd->lastInsertId();
+
+    $insertAuteursQuery= "INSERT INTO Auteurs(nom) VALUES(:nom)";
+    $insertAuteursQuery = $this->bd->prepare($insertAuteursQuery);
+    $insertAuteursQuery->bindValue(':nom', $form_auteur, PDO::PARAM_STR);
+    $insertAuteursQuery->execute();
+
+    $auteur_id = $this->bd->lastInsertId();
+
+    $insertEditeursQuery= "INSERT INTO Editeurs(nom) VALUES(:nom)";
+    $insertEditeursQuery = $this->bd->prepare($insertEditeursQuery);
+    $insertEditeursQuery->bindValue(':nom', $form_editeur, PDO::PARAM_STR);
+    $insertEditeursQuery->execute();
+
+    $editeur_id = $this->bd->lastInsertId();
+
+    $insertCollectionQuery= "INSERT INTO Collection(nom) VALUES(:nom)";
+    $insertCollectionQuery = $this->bd->prepare($insertCollectionQuery);
+    $insertCollectionQuery->bindValue(':nom', $form_collection, PDO::PARAM_STR);
+    $insertCollectionQuery->execute();
+
+    $insertJeuQuery= "INSERT INTO Jeux(titre, date_parution_debut, date_parution_fin, information_date, version, nombre_de_joueurs, age_indique, mots_cles, mecanisme_id)
+                    VALUES(:titre, :date_parution, :date_parution_fin, :information_date, :version, :nb_joueur, :age, :mots_cles, :mecanisme_id)";
+    $insertJeuQuery = $this->bd->prepare($insertJeuQuery);
+    $insertJeuQuery->bindValue(':titre', $form_titre, PDO::PARAM_STR);
+    $insertJeuQuery->bindValue(':date_parution', $form_date_parution, PDO::PARAM_INT);
+    $insertJeuQuery->bindValue(':date_parution_fin', $form_date_parution_fin, PDO::PARAM_INT);
+    $insertJeuQuery  ->bindValue(':information_date', $form_information_date, PDO::PARAM_STR);
+    $insertJeuQuery  ->bindValue(':version', $form_version, PDO::PARAM_STR);
+    $insertJeuQuery  ->bindValue(':nb_joueur', $form_nb_joueur, PDO::PARAM_STR);
+    $insertJeuQuery  ->bindValue(':age', $form_age, PDO::PARAM_STR);
+    $insertJeuQuery  ->bindValue(':mots_cles', $form_mots_cles, PDO::PARAM_STR);
+    $insertJeuQuery->bindValue(':mecanisme_id', $mecanisme_id, PDO::PARAM_INT);
+    $insertJeuQuery->execute();
+
+    $jeu_id = $this->bd->lastInsertId();
+
+    $insertJeuMecanismeQuery = "INSERT INTO JeuMecanisme(jeu_id, mecanisme_id) VALUES(:jeu_id, :mecanisme_id)";
+    $insertJeuMecanismeQuery = $this->bd->prepare($insertJeuMecanismeQuery);
+    $insertJeuMecanismeQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+    $insertJeuMecanismeQuery->bindValue(':mecanisme_id', $mecanisme_id, PDO::PARAM_INT);
+    $insertJeuMecanismeQuery->execute();
+
+    $insertJeuAuteurQuery = "INSERT INTO JeuAuteur(jeu_id, auteur_id) VALUES(:jeu_id, :auteur_id)";
+    $insertJeuAuteurQuery = $this->bd->prepare($insertJeuAuteurQuery);
+    $insertJeuAuteurQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+    $insertJeuAuteurQuery->bindValue(':auteur_id', $auteur_id, PDO::PARAM_INT);
+    $insertJeuAuteurQuery->execute();
+
+    $insertJeuEditeurQuery = "INSERT INTO JeuEditeur(jeu_id, editeur_id) VALUES(:jeu_id, :editeur_id)";
+    $insertJeuEditeurQuery = $this->bd->prepare($insertJeuEditeurQuery);
+    $insertJeuEditeurQuery->bindValue(':jeu_id', $jeu_id, PDO::PARAM_INT);
+    $insertJeuEditeurQuery->bindValue(':editeur_id', $editeur_id, PDO::PARAM_INT);
+    $insertJeuEditeurQuery->execute();
+
+    return true;
+}
 }
 
 ?>
