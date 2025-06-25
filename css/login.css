@@ -175,7 +175,7 @@ body::before {
 
 #error,
 #signIn {
-  color: #2c1810;
+  color: #2c1810; 
   font-size: 16px;
   position: absolute;
   top: 10%;
