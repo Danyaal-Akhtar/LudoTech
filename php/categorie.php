@@ -93,10 +93,6 @@ init_php_session();
        if(isset($_GET['meca'])){
             $model = Model::getModel();
             $jeux= $model->getJeuByMecanismes($_GET['meca']); 
-            
-           
-        
-
             echo "<div class= taille><div class=liste-jeu>";
             foreach ($jeux as $j) {
                 echo "<a href='/php/jeux.php?titre=" . urlencode($j['titre']) . "' class='jeu-container'>
@@ -129,7 +125,7 @@ init_php_session();
        
        <footer>
         <p>&copy; 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales | Politique de confidentialité</p>
+        
     </footer>
     <script src="/dashboard.js"></script>
 </body>

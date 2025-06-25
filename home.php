@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="img/logo.png">
-    <link rel='stylesheet' href='css/style.css'>
+    <link rel='stylesheet' href='css/styleeess.css'>
     <title>LudoTech</title>
 </head>
 <body>
@@ -83,7 +83,7 @@
     </div>
     <footer>
         <p>© 2025 LudoTech | Tous droits réservés.</p>
-        <p>Mentions légales</a> | Politique de confidentialité</a></p>
+       
     </footer>
 
     <script src="script.js"></script>

@@ -76,7 +76,7 @@
 
     <footer>
         <p>&copy; 2025 LudoTech | Tous droits réservés.</p>
-        Mentions légales | Politique de confidentialité</p>
+        
     </footer>
     <script src="../dashboard.js"></script>
 </body>

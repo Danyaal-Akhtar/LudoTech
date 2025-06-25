@@ -180,12 +180,36 @@ class Model {
     public function ajouterPret($boite,$emprun){
 
         $requete = $this->bd->prepare(" INSERT INTO Prets (boite_id, emprunteur_id, date_emprunt, date_retour) 
-        VALUES (:boite_id, :emprunteur_id, NOW(), NULL)");
+        VALUES (:boite_id, :emprunteur_id, NOW(), NOW() + INTERVAL 2 WEEK");
         $requete->bindValue(':boite_id',$boite ,PDO::PARAM_INT);
         $requete->bindValue(':emprunteur_id',$emprun, PDO::PARAM_INT);
         return $requete->execute();
 
 
+    }
+
+    public function pretExisteDeja($boite_id, $emprunteur_id) {
+        $requete = $this->bd->prepare("
+            SELECT COUNT(*) AS nb 
+            FROM Prets
+            WHERE boite_id = :boite_id AND emprunteur_id = :emprunteur_id 
+        ");
+        $requete->bindValue(':boite_id', $boite_id, PDO::PARAM_INT);
+        $requete->bindValue(':emprunteur_id', $emprunteur_id, PDO::PARAM_INT);
+        $requete->execute();
+        $result = $requete->fetch(PDO::FETCH_ASSOC);
+        return $result['nb'] > 0;
+    }
+
+
+
+    public function getPretsByEmpruId($emprunteur){
+
+
+        $requete =$this->bd->prepare("SELECT * FROM Prets where emprunteur_id = :emprunteur_id");
+        $requete->bindValue(':emprunteur_id',$emprunteur, PDO::PARAM_INT);
+        $requete->execute();
+        return $requete->fetchAll(PDO::FETCH_ASSOC);    
     }
        
 }

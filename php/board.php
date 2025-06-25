@@ -109,7 +109,10 @@
             </tr>
         </thead>
         <tbody>
-            <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+            <?php 
+        
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) { 
+                $res= $model->getPretsByEmpruId($row['emprunteur_id']);?>
             <tr>
                 <td><?php echo $row['emprunteur_id']; ?></td>
                 <td><?php echo $row['role_id']; ?>
@@ -126,7 +129,17 @@
                     <button type="submit">Modifier</button>
             </form>
             </td>
-                <td><?php echo $row['nom']; ?></td>
+            <td>
+<?php 
+if (!empty($res)) {
+    
+    echo "<a href='/php/Prets.php?emprunteur=" . htmlspecialchars($row['emprunteur_id']) . "'>" . htmlspecialchars($row['nom']) . "</a>";
+} else {
+
+    echo htmlspecialchars($row['nom']);
+}
+?>
+</td>
                 <td><?php echo $row['email']; ?></td>
                 <td><?php echo $row['date']; ?></td>
                 <td>
