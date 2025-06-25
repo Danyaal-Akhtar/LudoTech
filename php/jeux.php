@@ -311,43 +311,43 @@ echo '<button class="value">
         exit;
     }
 
-    if (isset($_POST['pret'])) {
-                    
-        try {   
-    $boite_id = $model->getBoiteIdParTitre($_GET['titre']);}
-    catch (Exception $e) {echo "erreur1"; }
-    
-    $pretDejaFait = false;
-    if ($boite_id) { 
-        $pretDejaFait = $model->pretExisteDeja($boite_id, $_SESSION['emprunteur_id']);
-        if ($pretDejaFait) {
-            echo "<p> Vous avez déjà emprunté ce jeu.</p>";
-        } else {
-        
+      if (isset($_POST['pret'])) {
+                
+             try {   
+            $boite_id = $model->getBoiteIdParTitre($_GET['titre']);}
+            catch (Exception $e) {echo "erreur1"; }
+           
+            $pretDejaFait = false;
+            if ($boite_id) { 
+                $pretDejaFait = $model->pretExisteDeja($boite_id);
+                if ($pretDejaFait) {
+                    echo "<p> Vous avez déjà emprunté ce jeu.</p>";
+                } else {
+               
 
-        try{
-        $pret = $model->ajouterPret($boite_id, $_SESSION['emprunteur_id']);}
-        catch (Exception $e) {echo "erreur2"; }
-        if ($pret) {
-            
-            echo "<p> Prêt ajouté avec succès</p>"; 
-            $pretDejaFait = true;
-        } else {
-            echo "<p>Erreur lors de l'ajout du prêt</p>";
+                try{
+                $pret = $model->ajouterPret($boite_id, $_SESSION['emprunteur_id']);}
+                catch (Exception $e) {echo "erreur2"; }
+                if ($pret) {
+                   
+                    echo "<p> Prêt ajouté avec succès</p>"; 
+                    $pretDejaFait = true;
+                } else {
+                    echo "<p>Erreur lors de l'ajout du prêt</p>";
+                }
+            }}
+             else {
+                echo "<p> Boîte non trouvée pour ce titre</p>";
+            }
         }
-    }}
-        else {
-        echo "<p> Boîte non trouvée pour ce titre</p>";
-    }
-    }
 
-    else{
-        $boite_id = $model->getBoiteIdParTitre($_GET['titre']);
-        if ($boite_id) {
-            $pretDejaFait = $model->pretExisteDeja($boite_id, $_SESSION['emprunteur_id']);
-        } else {  $pretDejaFait = false;
-    }
-    }
+            else{
+                $boite_id = $model->getBoiteIdParTitre($_GET['titre']);
+                if ($boite_id) {
+                    $pretDejaFait = $model->pretExisteDeja($boite_id, $_SESSION['emprunteur_id']);
+                } else {  $pretDejaFait = false;
+            }
+        }
 
 
     echo "<form method='post'>";

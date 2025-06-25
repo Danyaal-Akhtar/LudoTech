@@ -134,7 +134,7 @@
 <?php 
 if (!empty($res)) {
     
-    echo "<a href='/php/Prets.php?emprunteur=" . htmlspecialchars($row['emprunteur_id']) . "'>" . htmlspecialchars($row['nom']) . "</a>";
+    echo "<a class ='ilario' href='/php/Prets.php?emprunteur=" . htmlspecialchars($row['emprunteur_id']) . "'>" . htmlspecialchars($row['nom']) . "</a>";
 } else {
 
     echo htmlspecialchars($row['nom']);
