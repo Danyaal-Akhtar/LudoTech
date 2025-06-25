@@ -70,10 +70,10 @@ Ce projet vise à créer :
 ---
 
 ## Membres de l'équipe 
-AKHTAR Danyaal
-GONCALVES DOS SANTOS Ilario
-MADRAZ Elies
-TRAORÉ Karim
+- AKHTAR Danyaal
+- GONCALVES DOS SANTOS Ilario
+- MADRAZ Elies
+- TRAORÉ Karim
 
 
 
