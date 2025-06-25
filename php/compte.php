@@ -265,7 +265,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                     <a href="/home.php" class="btn btn-secondary">
                         <i class="fas fa-times"></i>
-                        retour
+                        Retour
                     </a>
                 </div>
             </form>
