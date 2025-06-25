@@ -94,10 +94,6 @@ init_php_session();
        if(isset($_GET['meca'])){
             $model = Model::getModel();
             $jeux= $model->getJeuByMecanismes($_GET['meca']); 
-            //ff
-           
-        
-
             echo "<div class= taille><div class=liste-jeu>";
             foreach ($jeux as $j) {
                 echo "<a href='/php/jeux.php?titre=" . urlencode($j['titre']) . "' class='jeu-container'>
