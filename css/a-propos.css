@@ -347,6 +347,7 @@ main {
   text-align: center;
   position: relative;
   overflow: hidden;
+  margin-top: 20px;
 }
 
 /* Suppression de la texture de la section team car elle est maintenant couverte par celle de hero */
