@@ -24,6 +24,7 @@ if (isset($_GET['titre']) && !empty($_GET['titre'])) {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Détails du Jeu</title>
     <link rel='icon' href='/img/logo.png'>
+    <link rel='stylesheet' href='/css/index.css'> 
     <link rel='stylesheet' href='/css/jeux.css'>
 </head>
 <body>

@@ -15,6 +15,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="img/logo.png">
+    <link rel='stylesheet' href='css/index.css'>
+
     <link rel='stylesheet' href='css/style.css'>
     <title>LudoTech</title>
 </head>
@@ -26,7 +28,7 @@
                 <input type="text" name = "s" placeholder="Rechercher un jeu, un éditeur, ...   ">
             </form>
         </div>
-        <div class="profile">
+        <div class="profile">           
         <?php if(is_logged()): ?>
                 <?= htmlspecialchars($_SESSION['nom']) ?>
         <?php else: ?>
