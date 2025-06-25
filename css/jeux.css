@@ -454,8 +454,9 @@ nav a {
 
 .img_cat {
     display: flex;
-    height: 200px;
-    width: 200px;
+    height: 230px;
+    width: 230px;
     left: 70%;
     top: -30%;
+    border-radius: 10px;
 }
