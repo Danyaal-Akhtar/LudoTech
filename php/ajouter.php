@@ -153,10 +153,9 @@
             <a href="logout.php">Déconnexion</a>
         </button>
     </div>
-    <span class="title">- Ajouter un Jeu de Société -</span>
-    <img class='logoform' src="../img/logo.png" alt="LudoTech">
     <div class='ajouter'>
         <form class="form" method='POST'>
+        <h1 class="title">- Ajouter un Jeu de Société -</h1>
         <div class="form_control">
             <input type="text" name='titre' class="input" required="">
             <label class="label">Titre</label>
