@@ -174,12 +174,15 @@ body::before {
 
 #error,
 #signIn {
-  color: #2c1810;
+  color: #2c1810; 
   font-size: 16px;
   position: absolute;
-  top: 20%;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: rgba(245, 222, 179, 0.6);
   padding: 5px 10px;
   border-radius: 5px;
   border: 1px solid #cd853f;
+  z-index: 1000;
 }
