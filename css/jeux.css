@@ -405,7 +405,7 @@ nav a {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.btn-delete input:hover, .modify-game .btn_modifier:hover {
+.btn-delete input:hover, .modify-game .btn_modifier:hover, .btn-pret:hover{
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
   background-color: #cd853f;
@@ -459,4 +459,26 @@ nav a {
     left: 70%;
     top: -30%;
     border-radius: 10px;
+}
+
+.img_cat {
+  position: relative;
+    display: flex;
+    height: 230px;
+    width: 230px;
+    left: 20%;
+    border-radius: 10px;
+}
+
+.btn-pret {
+  background: #a52a2a;
+  color: #f5deb3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
